@@ -291,8 +291,13 @@ Ao executar os nossos testes o que estamos fazendo é o seguinte:
 1. Verificamos diretamente no repositório se o conteúdo foi gravado para esperávamos.
     - Não utilizamos o método **BuscarPorCliente** do repositório para evitar que, caso haja algum erro neste método de busca, isso não afetará o teste do **POST**
 
+#### Diagrama com a sequência da execução do teste
+
+![Testes de integracao](Testes%20de%20integracao.svg)
+
 **Resumindo**: Testes de integração confirmam que o todo funciona em conjunto, não apenas as partes isoladas.
 
 ## Referências
 
 - [Moq](https://github.com/devlooped/moq)
+- [WebApplicationFactory](https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.testing.webapplicationfactory-1?view=aspnetcore-9.0)
