@@ -9,14 +9,14 @@ Neste artigo utilizarei uma API de gravação de pedidos feito em C# mas podemos
 
 ## O que são os testes de unidade?
 
-Os **testes de unidade** têm como objetivo verificar **pequenas partes isoladas do código** — geralmente uma função, método ou classe.  
+Os **testes de unidade** têm como objetivo verificar **pequenas partes isoladas do código** — geralmente uma função, método ou classe.
 
 ### Características dos testes de unidade
 
-- Escopo reduzido.  
-- Executam rapidamente.  
-- Usam **mocks** para simular dependências externas.  
-- Identificam erros logo na fase inicial do desenvolvimento.  
+- Escopo reduzido.
+- Executam rapidamente.
+- Usam **mocks** para simular dependências externas.
+- Identificam erros logo na fase inicial do desenvolvimento.
 
 ### Exemplo: `CalculadorDescontoService`
 
@@ -44,10 +44,26 @@ public class CalculadorDescontoService : ICalculadorDescontoService
 [Fact]
 public void Calcular_DeveAplicarDescontoCorretamente()
 {
+    // Arrange
     ICalculadorDescontoService service = new CalculadorDescontoService();
 
+    // Act
     var resultado = service.Calcular(100, 0.1m); // 10% de desconto
+
+    // Assert
     Assert.Equal(90, resultado);
+}
+
+[Theory]
+[InlineData(-0.1)] // menor que 0
+[InlineData(1.1)]  // maior que 1
+public void Calcular_DeveLancarExcecao_SePercentualForaDoRange(decimal percentualInvalido)
+{
+    // Arrange
+    ICalculadorDescontoService service = new CalculadorDescontoService();
+
+    // Act & Assert
+    Assert.Throws<ArgumentException>(() => service.Calcular(100, percentualInvalido));
 }
 
 ```
@@ -142,6 +158,7 @@ public void CriarPedido_ComDescontoDe10PorCento_DeveSalvarComValor90()
     Assert.Equal(90, pedidoSalvo!.Valor); // ❌ FALHA: valor incorreto
 }
 ```
+
 👉 Aqui o teste falha, mostrando que o PedidoService e o CalculadorDescontoService não concordam sobre o formato do percentual.
 
 ---
